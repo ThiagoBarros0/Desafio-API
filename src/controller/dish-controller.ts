@@ -38,10 +38,6 @@ export class DishController {
         // });
     } 
 
-    getDishByName(req: Request, res: Response){
-        const { name } = req.params;
-    }
-
     deleteDish(req: Request, res: Response) {
         const { name } = req.params;
         const dish = this.dishRepository.findByName(name);
@@ -51,19 +47,38 @@ export class DishController {
             });
         }
     }
-    // async getDishesByName(req: Request, res: Response){
-    //     const {name} = req.params;
-    //     const dishes = await this.dishesRepository.findByName(name);
-    //     if (!dishes){
-    //         return res.status(404).json({
-    //             mensagem: 'Prato não encontrado',
-    //         })
-    //     }
-    // }
+    getDishByName(req: Request, res: Response){
+        const {name} = req.params;
+        const dish = this.dishRepository.findByName(name);
+        if (!dish){
+            return res.status(404).json({
+                mensagem: 'Prato não encontrado',
+            });
+        }
+        return res.status(200).json({
+            id: dish.id,
+            nome: dish.name,
+            description: dish.description,
+            price: dish.price,
+        })
+    }
 
     getAll(req: Request, res: Response){
         const dish = this.dishRepository.findAll();
         return res.status(200).json(dish);
         
+    }
+
+    updateDish(req: Request, res: Response){
+        const {name} = req.params;
+        const {description} = req.body;
+        const dish = this.dishRepository.findByName(name);
+        if(!dish){
+            return res.status(404).json({
+                mensagem: 'Prato não encontrado',
+            });
+        }
+        this.dishRepository.updateDescription(name, description);
+        return res.status(204).send();
     }
 }

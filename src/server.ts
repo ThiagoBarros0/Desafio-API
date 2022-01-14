@@ -17,6 +17,8 @@ app.post('/dish', async (req,res) =>
 
 app.get('/dish/:name', (req, res) => dishController.getDishByName(req, res),);
 
+app.patch('/dish/:name',(req, res) => dishController.updateDish(req,res),);
+
 app.delete('/dish/:name', (req, res) => dishController.deleteDish(req, res),);
 
 app.get('/dish', (req, res) => dishController.getAll(req, res));

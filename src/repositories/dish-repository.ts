@@ -14,7 +14,14 @@ export class DishRepository{
     }
 
     findByName(name: string): Dish | undefined {
-      return this.dishes.find((d)=> d.name == name)
+      return this.dishes.find((d)=> d.name === name)
+    }
+
+    updateDescription(name: string, description: string){
+      const dish = this.findByName(name) as Dish;
+      this.dishes = this.dishes.filter((d) => d.name !== name )
+      dish.description = description;
+      this.dishes.push(dish);
     }
 
     remove(name: string){
